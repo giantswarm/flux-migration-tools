@@ -32,11 +32,11 @@ func main() {
 	}
 	log.Printf("Pausing %d Argo Applications...", len(u.Items))
 
-	patch := []byte(`{
+	patch := []byte(`[{
 "op": "replace",
 "path": "/spec/syncPolicy/automated/selfHeal",
 "value": false
-}`)
+}]`)
 	for i := range u.Items {
 		ptr := &u.Items[i]
 		err = c.Patch(
