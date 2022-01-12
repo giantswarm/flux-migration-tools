@@ -32,13 +32,17 @@ func main() {
 	}
 	log.Printf("Pausing %d Argo Applications...", len(u.Items))
 
-	patch := []byte(`{"spec": {"syncPolicy": {"automated": {"selfHeal": false}}}}`)
+	patch := []byte(`{
+"op": "replace",
+"path": "/spec/syncPolicy/automated/selfHeal",
+"value": false,
+}`)
 	for i := range u.Items {
 		ptr := &u.Items[i]
 		err = c.Patch(
 			context.Background(),
 			ptr,
-			client.RawPatch(types.StrategicMergePatchType, patch),
+			client.RawPatch(types.JSONPatchType, patch),
 		)
 		if err != nil {
 			log.Fatal(err)
