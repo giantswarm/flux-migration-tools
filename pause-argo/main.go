@@ -35,7 +35,7 @@ func main() {
 	patch := []byte(`{
 "op": "replace",
 "path": "/spec/syncPolicy/automated/selfHeal",
-"value": false,
+"value": false
 }`)
 	for i := range u.Items {
 		ptr := &u.Items[i]
