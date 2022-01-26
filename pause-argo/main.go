@@ -36,6 +36,11 @@ func main() {
 "op": "replace",
 "path": "/spec/syncPolicy/automated/selfHeal",
 "value": false
+},
+{
+"op": "replace",
+"path": "/spec/syncPolicy/automated/prune",
+"value": false
 }]`)
 	for i := range u.Items {
 		ptr := &u.Items[i]
