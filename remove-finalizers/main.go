@@ -36,12 +36,6 @@ var (
 		{Group: "source.toolkit.fluxcd.io", Kind: "GitRepositoryList", Version: "v1beta1"},
 		{Group: "source.toolkit.fluxcd.io", Kind: "HelmChartList", Version: "v1beta1"},
 		{Group: "source.toolkit.fluxcd.io", Kind: "HelmRepositoryList", Version: "v1beta1"},
-		// starboard
-		{Group: "aquasecurity.github.io", Kind: "CISKubeBenchReportList", Version: "v1alpha1"},
-		{Group: "aquasecurity.github.io", Kind: "ClusterConfigAuditReportList", Version: "v1alpha1"},
-		{Group: "aquasecurity.github.io", Kind: "ClusterVulnerabilityReportList", Version: "v1alpha1"},
-		{Group: "aquasecurity.github.io", Kind: "ConfigAuditReportList", Version: "v1alpha1"},
-		{Group: "aquasecurity.github.io", Kind: "VulnerabilityReportList", Version: "v1alpha1"},
 	}
 )
 
