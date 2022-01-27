@@ -51,8 +51,8 @@ Usage of flux-collection-migration:
 
 ## pause-argo
 
-Changes `.spec.syncPolicy.automated.selfHeal` to `false` for all Argo
-Application resources.
+Changes `.spec.syncPolicy.automated.selfHeal` and `prune` to `false` for all
+Argo Application resources.
 
 Example run:
 ```
@@ -63,3 +63,8 @@ pause-argo/ go run .
 2022/01/12 12:09:24   argocd/vertical-pod-autoscaler-app
 2022/01/12 12:09:24 DONE
 ```
+
+## remove-finalizers
+
+Strips finalizers from Argo, Flux, and Starboard CRs. Can be used to get rid of
+CRs stuck in deletion after operators have already been scaled down.
