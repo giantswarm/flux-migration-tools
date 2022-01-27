@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	// fluxSchemas are ORDERED from the newest API version to the oldest. This
-	// is very important, as we rely on getting CR once, with the latest API
-	// version, regardless of how many versions are served.
-	fluxSchemas = []schema.GroupVersionKind{
+	schemas = []schema.GroupVersionKind{
+		// argo
+		{Group: "argoproj.io", Kind: "ApplicationList", Version: "v1alpha1"},
+		{Group: "argoproj.io", Kind: "AppProjectList", Version: "v1alpha1"},
+		// flux
 		{Group: "helm.toolkit.fluxcd.io", Kind: "HelmReleaseList", Version: "v2beta1"},
 		{Group: "image.toolkit.fluxcd.io", Kind: "ImagePolicyList", Version: "v1alpha2"},
 		{Group: "image.toolkit.fluxcd.io", Kind: "ImagePolicyList", Version: "v1alpha1"},
@@ -35,6 +36,12 @@ var (
 		{Group: "source.toolkit.fluxcd.io", Kind: "GitRepositoryList", Version: "v1beta1"},
 		{Group: "source.toolkit.fluxcd.io", Kind: "HelmChartList", Version: "v1beta1"},
 		{Group: "source.toolkit.fluxcd.io", Kind: "HelmRepositoryList", Version: "v1beta1"},
+		// starboard
+		{Group: "aquasecurity.github.io", Kind: "CISKubeBenchReportList", Version: "v1alpha1"},
+		{Group: "aquasecurity.github.io", Kind: "ClusterConfigAuditReportList", Version: "v1alpha1"},
+		{Group: "aquasecurity.github.io", Kind: "ClusterVulnerabilityReportList", Version: "v1alpha1"},
+		{Group: "aquasecurity.github.io", Kind: "ConfigAuditReportList", Version: "v1alpha1"},
+		{Group: "aquasecurity.github.io", Kind: "VulnerabilityReportList", Version: "v1alpha1"},
 	}
 )
 
@@ -49,7 +56,7 @@ func main() {
 "value": []
 }]`)
 
-	for _, sch := range fluxSchemas {
+	for _, sch := range schemas {
 		u := &unstructured.UnstructuredList{}
 		u.SetGroupVersionKind(sch)
 
