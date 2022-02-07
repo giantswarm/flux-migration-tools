@@ -71,7 +71,7 @@ func main() {
 	}
 
 	kustomization := &Kustomization{
-		Namespace:  "giantswarm-flux",
+		Namespace:  "flux-giantswarm",
 		Generators: []string{},
 	}
 
