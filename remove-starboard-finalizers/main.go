@@ -52,7 +52,8 @@ func main() {
 			Namespace: namespace,
 		})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
+			continue
 		}
 
 		for i, item := range u.Items {
@@ -66,7 +67,8 @@ func main() {
 				client.RawPatch(types.JSONPatchType, patch),
 			)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+				continue
 			}
 			log.Printf("  %s/%s", ptr.GetNamespace(), ptr.GetName())
 		}
