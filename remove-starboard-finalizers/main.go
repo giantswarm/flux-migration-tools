@@ -14,29 +14,6 @@ import (
 
 var (
 	schemas = []schema.GroupVersionKind{
-		// argo
-		{Group: "argoproj.io", Kind: "ApplicationList", Version: "v1alpha1"},
-		{Group: "argoproj.io", Kind: "AppProjectList", Version: "v1alpha1"},
-		// flux
-		{Group: "helm.toolkit.fluxcd.io", Kind: "HelmReleaseList", Version: "v2beta1"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImagePolicyList", Version: "v1alpha2"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImagePolicyList", Version: "v1alpha1"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImagePolicyList", Version: "v1beta1"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImageRepositoryList", Version: "v1beta1"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImageRepositoryList", Version: "v1alpha2"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImageRepositoryList", Version: "v1alpha1"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImageUpdateAutomationList", Version: "v1beta1"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImageUpdateAutomationList", Version: "v1alpha2"},
-		{Group: "image.toolkit.fluxcd.io", Kind: "ImageUpdateAutomationList", Version: "v1alpha1"},
-		{Group: "kustomize.toolkit.fluxcd.io", Kind: "KustomizationList", Version: "v1beta2"},
-		{Group: "kustomize.toolkit.fluxcd.io", Kind: "KustomizationList", Version: "v1beta1"},
-		{Group: "notification.toolkit.fluxcd.io", Kind: "AlertList", Version: "v1beta1"},
-		{Group: "notification.toolkit.fluxcd.io", Kind: "ProviderList", Version: "v1beta1"},
-		{Group: "notification.toolkit.fluxcd.io", Kind: "ReceiverList", Version: "v1beta1"},
-		{Group: "source.toolkit.fluxcd.io", Kind: "BucketList", Version: "v1beta1"},
-		{Group: "source.toolkit.fluxcd.io", Kind: "GitRepositoryList", Version: "v1beta1"},
-		{Group: "source.toolkit.fluxcd.io", Kind: "HelmChartList", Version: "v1beta1"},
-		{Group: "source.toolkit.fluxcd.io", Kind: "HelmRepositoryList", Version: "v1beta1"},
 		// starboard
 		{Group: "aquasecurity.github.io", Kind: "CISKubeBenchReportList", Version: "v1alpha1"},
 		{Group: "aquasecurity.github.io", Kind: "ClusterConfigAuditReportList", Version: "v1alpha1"},
