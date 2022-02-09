@@ -36,7 +36,6 @@ type KonfigureMeta struct {
 }
 
 type Kustomization struct {
-	Namespace  string   `json:"namespace,omitempty"`
 	Generators []string `json:"generators,omitempty"`
 }
 
@@ -71,7 +70,6 @@ func main() {
 	}
 
 	kustomization := &Kustomization{
-		Namespace:  "flux-giantswarm",
 		Generators: []string{},
 	}
 
