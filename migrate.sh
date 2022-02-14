@@ -10,10 +10,17 @@ INSTALLATION=$1
 PROVIDER=$2
 EMAIL=$3
 
+echo "I'm going to do migration magic for installation $INSTALLATION on provider $PROVIDER using email $EMAIL for alerts."
+echo "Type 'yolo' below to continue."
+read yolo
+
+if [[ "$yolo" != "yolo" ]]; then
+  echo "Exiting, as you're not really YOLO."
+  exit 2
+fi
+
 set -x
 set -e
-
-exit 0
 
 # login
 opsctl kgs login -i $INSTALLATION
