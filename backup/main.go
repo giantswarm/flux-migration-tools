@@ -140,6 +140,9 @@ func backup(c client.Client, dir, namespace string, schemas []schema.GroupVersio
 		}
 
 		if backedUpObjects > 0 {
+			if sch.Group == "" {
+				sch.Group = "core"
+			}
 			filePath := path.Join(
 				dir,
 				fmt.Sprintf("%s.%s.%s.yaml", sch.Group, sch.Version, strings.ToLower(sch.Kind)),
