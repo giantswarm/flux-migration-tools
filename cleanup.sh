@@ -29,6 +29,9 @@ opsctl kgs login -i $INSTALLATION
 opsctl create routingrule -u $EMAIL -c $INSTALLATION -r '.*' -n "$INSTALLATION-argo-to-flux-$USER" --ttl 2h
 
 # vault
+unset VAULT_ADDR
+unset VAULT_TOKEN
+unset VAULT_CAPATH
 $(opsctl create vaultconfig -i $INSTALLATION | tail -n 4)
 vault read auth/kubernetes/role/konfigure
 vault write auth/kubernetes/role/konfigure \
@@ -45,7 +48,7 @@ kubectl get cm -n argocd management-cluster-metadata -o yaml | kubectl neat > ma
 kubectl get secret -n argocd github-giantswarm-https-credentials -o yaml | kubectl neat > github-giantswarm-https-credentials.yaml
 sed -i 's/namespace: argocd/namespace: flux-giantswarm/' *.yaml
 sed -i "2 a \ \ CLUSTER_DOMAIN: ${cluster_domain}" management-cluster-metadata.yaml
-mv *.yaml backup/$INSTALLATION
+mv *.yaml $INSTALLATION
 cd ..
 
 # pause argo
@@ -96,18 +99,3 @@ kubectl delete crd $(kubectl get crd | grep 'toolkit.fluxcd.io' | cut -f1 -d" ")
 kubectl -n argocd delete application --all
 kubectl delete ns argocd
 
-# bootstrap
-kubectl create -f https://raw.githubusercontent.com/giantswarm/management-clusters-fleet/migrate-to-flux-test/bootstrap/gs-${PROVIDER}/gs-${PROVIDER}.yaml
-kubectl create -f backup/$INSTALLATION/github-giantswarm-https-credentials.yaml 
-kubectl create -f backup/$INSTALLATION/management-cluster-metadata.yaml 
-
-# cleanup
-kubectl label app -n giantswarm --all argocd.argoproj.io/instance-
-kubectl label cm -n giantswarm --all argocd.argoproj.io/instance-
-kubectl label secret -n giantswarm --all argocd.argoproj.io/instance-
-
-# verify
-kubectl -n flux-giantswarm get deploy
-kubectl -n flux-system get deploy
-kubectl -n flux-giantswarm get gitrepo,kustomization
-kubectl -n giantswarm get app | grep -v "deployed"
