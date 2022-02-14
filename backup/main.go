@@ -17,8 +17,9 @@ import (
 )
 
 const (
-	argoDir = "argo-backup"
-	fluxDir = "flux-backup"
+	argoDir       = "argo-backup"
+	fluxDir       = "flux-backup"
+	fluxConfigDir = "flux-config-backup"
 )
 
 var (
@@ -50,6 +51,11 @@ var (
 		{Group: "source.toolkit.fluxcd.io", Kind: "HelmChartList", Version: "v1beta1"},
 		{Group: "source.toolkit.fluxcd.io", Kind: "HelmRepositoryList", Version: "v1beta1"},
 	}
+	// We need to back-up configuration from flux-system
+	configSchemas = []schema.GroupVersionKind{
+		{Group: "", Kind: "SecretList", Version: "v1"},
+		{Group: "", Kind: "ConfigMapList", Version: "v1"},
+	}
 )
 
 func main() {
@@ -64,20 +70,27 @@ func main() {
 	if err := os.MkdirAll(argoDir, 0755); err != nil {
 		log.Fatalf("failed to create %s directory", argoDir)
 	}
+	if err := os.MkdirAll(fluxConfigDir, 0755); err != nil {
+		log.Fatalf("failed to create %s directory", argoDir)
+	}
 
 	log.Println("Backing up Argo resources...")
-	if err := backup(c, argoDir, argoSchemas); err != nil {
+	if err := backup(c, argoDir, "", argoSchemas); err != nil {
 		log.Fatal(err)
 	}
 
 	log.Println("Backing up Flux resources...")
-	if err := backup(c, fluxDir, fluxSchemas); err != nil {
+	if err := backup(c, fluxDir, "", fluxSchemas); err != nil {
 		log.Fatal(err)
 	}
 
+	log.Println("Backing up ConfigMap and Secret resources in flux-system...")
+	if err := backup(c, fluxConfigDir, "flux-system", configSchemas); err != nil {
+		log.Fatal(err)
+	}
 }
 
-func backup(c client.Client, dir string, schemas []schema.GroupVersionKind) error {
+func backup(c client.Client, dir, namespace string, schemas []schema.GroupVersionKind) error {
 	seenUIDs := map[string]bool{}
 
 	for _, sch := range schemas {
@@ -85,7 +98,7 @@ func backup(c client.Client, dir string, schemas []schema.GroupVersionKind) erro
 		u.SetGroupVersionKind(sch)
 
 		err := c.List(context.Background(), u, &client.ListOptions{
-			Namespace: "",
+			Namespace: namespace,
 		})
 		if err != nil {
 			return err
@@ -127,6 +140,9 @@ func backup(c client.Client, dir string, schemas []schema.GroupVersionKind) erro
 		}
 
 		if backedUpObjects > 0 {
+			if sch.Group == "" {
+				sch.Group = "core"
+			}
 			filePath := path.Join(
 				dir,
 				fmt.Sprintf("%s.%s.%s.yaml", sch.Group, sch.Version, strings.ToLower(sch.Kind)),
