@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	appSchema = schema.GroupVersionKind{Group: "kustomize.toolkit.fluxcd.io", Kind: "KustomizationList", Version: "v1beta2"}
+	appSchema = schema.GroupVersionKind{Group: "source.toolkit.fluxcd.io", Kind: "GitRepositoryList", Version: "v1beta1"}
 )
 
 func main() {
