@@ -102,3 +102,5 @@ kubectl delete crd $(kubectl get crd | grep 'toolkit.fluxcd.io' | cut -f1 -d" ")
 kubectl -n argocd delete application --all
 kubectl delete ns argocd
 
+echo "***"
+echo "All done! Check the cleanup status, then run 02_bootstrap.sh"
