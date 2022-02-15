@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Clearing status in %d Flux Kustomizations...", len(u.Items))
+	log.Printf("Clearing status in %d Flux GitRepositories...", len(u.Items))
 
 	patch := []byte(`[{
 "op": "replace",
