@@ -96,6 +96,7 @@ go run . --namespace argocd
 cd ..
 
 # remove flux CRDs
+kubectl delete clusterrolebindings crd-controller
 kubectl delete crd $(kubectl get crd | grep 'toolkit.fluxcd.io' | cut -f1 -d" ")
 
 # delete argo
