@@ -33,11 +33,11 @@ func main() {
 	}
 	log.Printf("Clearing status in %d Flux Kustomizations...", len(u.Items))
 
-	patch := []byte(`{
+	patch := []byte(`[{
 "op": "replace",
 "path": "/status",
 "value": {}
-}`)
+}]`)
 	for i := range u.Items {
 		ptr := &u.Items[i]
 		err = c.Status().Patch(
