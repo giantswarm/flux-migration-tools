@@ -47,7 +47,7 @@ mkdir $INSTALLATION; mv argo-backup flux-backup flux-config-backup $INSTALLATION
 kubectl get cm -n argocd management-cluster-metadata -o yaml | kubectl neat > management-cluster-metadata.yaml
 kubectl get secret -n argocd github-giantswarm-https-credentials -o yaml | kubectl neat > github-giantswarm-https-credentials.yaml
 sed -i 's/namespace: argocd/namespace: flux-giantswarm/' *.yaml
-cluster_domain=$(k -n kube-system exec -it $(ks get po -l app=nginx-ingress-controller | head -n 2 | tail -n 1 | cut -f1 -d" ") -- cat /etc/resolv.conf | egrep "^search" | cut -f4 -d" ")
+cluster_domain=$(kubectl -n kube-system exec -it $(ks get po -l app=nginx-ingress-controller | head -n 2 | tail -n 1 | cut -f1 -d" ") -- cat /etc/resolv.conf | egrep "^search" | cut -f4 -d" ")
 echo "Detected cluster domain: $cluster_domain"
 sed -i "2 a \ \ CLUSTER_DOMAIN: ${cluster_domain}" management-cluster-metadata.yaml
 mv *.yaml $INSTALLATION
@@ -98,7 +98,9 @@ go run . --namespace argocd
 cd ..
 
 # remove flux CRDs
+set +e
 kubectl delete clusterrolebindings crd-controller
+set -e
 kubectl delete crd $(kubectl get crd | grep 'toolkit.fluxcd.io' | cut -f1 -d" ")
 
 # delete argo
