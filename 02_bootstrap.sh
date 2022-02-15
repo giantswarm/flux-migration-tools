@@ -74,3 +74,4 @@ if [[ $? -ne 1 ]]; then
 fi
 
 echo "INFO: All done! All checks OK!"
+echo "Remember to restore customer's flux objects now (if there were any) using files from backup/$INSTALLATION/flux-backup"
