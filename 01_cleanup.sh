@@ -102,5 +102,23 @@ kubectl delete crd $(kubectl get crd | grep 'toolkit.fluxcd.io' | cut -f1 -d" ")
 kubectl -n argocd delete application --all
 kubectl delete ns argocd
 
+# verify
+set +e
+kubectl get ns argocd
+if [[ $? -ne 1 ]]; then
+  echo "ERROR: argocd namespace still exists"
+  exit 1
+fi
+kubectl get ns flux-system
+if [[ $? -ne 1 ]]; then
+  echo "ERROR: flux-system namespace still exists"
+  exit 1
+fi
+kubectl get crd | egrep "fluxcd.io|argoproj.io"
+if [[ $? -ne 1 ]]; then
+  echo "ERROR: some argo or flux CRDs still exist"
+  exit 1
+fi
+
 echo "***"
-echo "All done! Check the cleanup status, then run 02_bootstrap.sh"
+echo "All done! Cluster seems to be ready, run manual checks then run 02_bootstrap.sh"
