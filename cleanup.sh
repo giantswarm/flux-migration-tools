@@ -43,7 +43,7 @@ bound_service_account_namespaces=flux-giantswarm \
 # backup
 cd backup/
 go run .
-mkdir $INSTALLATION; mv argo-backup flux-backup $INSTALLATION
+mkdir $INSTALLATION; mv argo-backup flux-backup flux-config-backup $INSTALLATION
 kubectl get cm -n argocd management-cluster-metadata -o yaml | kubectl neat > management-cluster-metadata.yaml
 kubectl get secret -n argocd github-giantswarm-https-credentials -o yaml | kubectl neat > github-giantswarm-https-credentials.yaml
 sed -i 's/namespace: argocd/namespace: flux-giantswarm/' *.yaml
@@ -81,7 +81,10 @@ kustomize-controller notification-controller source-controller; do
 done;
 
 # uninstall argo
+# returns error if anything is not found, so
+set +e
 kubectl delete -f https://raw.githubusercontent.com/giantswarm/management-clusters-fleet/main/bootstrap/${PROVIDER}.yaml
+set -e
 
 # remove finalizers
 cd remove-finalizers/
