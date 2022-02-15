@@ -33,6 +33,7 @@ kubectl label cm -n giantswarm --all argocd.argoproj.io/instance-
 kubectl label secret -n giantswarm --all argocd.argoproj.io/instance-
 
 # verify
+set +x
 for ns in flux-giantswarm flux-system; do
   for d in helm-controller image-automation-controller image-reflector-controller \
   kustomize-controller notification-controller source-controller; do
@@ -65,7 +66,7 @@ for gr in flux customer-flux collection; do
   echo ""
 done
 echo ""
-echo "\n*** INFO: all expected Kustomizations are up"
+echo "*** INFO: all expected Kustomizations are up"
 
 kubectl -n giantswarm get app --no-headers | grep -v "deployed"
 if [[ $? -ne 1 ]]; then
