@@ -106,7 +106,7 @@ kubectl -n argocd delete application --all
 kubectl delete ns argocd
 
 # verify
-set +e
+set +x
 kubectl get ns argocd
 if [[ $? -ne 1 ]]; then
   echo "ERROR: argocd namespace still exists"
